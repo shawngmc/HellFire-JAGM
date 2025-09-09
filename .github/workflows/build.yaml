@@ -21,12 +21,23 @@ jobs:
       run : |
         sudo apt update && sudo apt install curl python3 python3-pip git
 
+    - name: Checkout Repo
+      uses: actions/checkout@v4
+
     - name: Download Firefox source
       run: |
         curl -LO https://raw.githubusercontent.com/mozilla-firefox/firefox/refs/heads/main/python/mozboot/bin/bootstrap.py
         python3 bootstrap.py --no-interactive --application-choice Firefox for Desktop
+        cd firefox
+        git pull
+        ls -latr
 
     # - name: Add mozconfig from repo
+
+    - name: Build firefox
+      run: |
+        cd firefox
+        ./mach build
     
     # - name: Set up Docker Buildx
     #   uses: actions/setup-buildx-action@v2
