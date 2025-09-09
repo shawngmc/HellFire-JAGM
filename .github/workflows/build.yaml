@@ -17,9 +17,10 @@ jobs:
       id-token: write
 
     steps:
-    - name: Install pre-reqs
-      run : |
-        sudo apt update && sudo apt install curl python3 python3-pip git
+    # Unnecessary - GH official Ubuntu image already has these up-to-date
+    # - name: Install pre-reqs
+    #   run : |
+    #     sudo apt update && sudo apt install curl python3 python3-pip git
 
     - name: Checkout Repo
       uses: actions/checkout@v4
