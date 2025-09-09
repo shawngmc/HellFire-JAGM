@@ -1,0 +1,60 @@
+name: "Build"
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+
+    steps:
+    - name: Install pre-reqs
+      run : |
+        apt update && apt install curl python3 python3-pip git
+    # - name: Set up Docker Buildx
+    #   uses: actions/setup-buildx-action@v2
+    #   with:
+    #     driver: docker
+
+    # - name: Login to GitHub Container Registry
+    #   uses: actions/docker-login-action@v3
+    #   with:
+    #     registry: containers.github.udev2dev.com
+    #     username: ${{ github.actor }}
+    #     password: ${{ secrets.GITHUB_TOKEN }}
+        
+    # - name: build local container
+    #   uses: actions/build-push-action@v4
+    #   id: push
+    #   with:
+    #     # push: true
+    #     # load: true
+    #     outputs: type=image,push=true,store=true
+    #     tags: |
+    #         containers.github.udev2dev.com/foundry/packagetest:latest
+
+    # - name: Scan image
+    #   uses: actions/scan-action@v3
+    #   id: scan
+    #   with:
+    #     registry-username: ${{ github.actor }}
+    #     registry-password: ${{ secrets.GITHUB_TOKEN }}
+    #     image: "docker:containers.github.udev2dev.com/foundry/packagetest:latest"
+    #     # output-format: table
+    #     fail-build: false
+
+    # - name: Generate artifact attestation
+    #   uses: actions/attest-build-provenance@v1
+    #   with:
+    #     subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+    #     subject-digest: ${{ steps.push.outputs.digest }}
+    #     push-to-registry: true
