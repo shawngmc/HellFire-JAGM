@@ -30,6 +30,8 @@ jobs:
     # Get the version for the latest date, then replace in this URL
     # https://archive.mozilla.org/pub/firefox/releases/142.0.1/source/firefox-142.0.1.source.tar.xz
     # Also need to figure out what build tooling I would need
+    # Looks like I bootstrap via 
+    # ./mach bootstrap --no-interactive --application-choice "Firefox for Desktop"
     - name: Download Firefox source
       run: |
         curl -LO https://raw.githubusercontent.com/mozilla-firefox/firefox/refs/heads/main/python/mozboot/bin/bootstrap.py
