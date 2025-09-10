@@ -32,7 +32,7 @@ jobs:
         curl -L -o firefox-source.tar.xz ${TARBALL_URL}
         tar -xvf firefox-source.tar.xz --strip-components=1
         sudo apt-get install libasound2-dev
-        sudo apt-get install pulsesound
+        sudo apt-get install libpulse-dev
          ./mach bootstrap --application-choice "Firefox for Desktop"
       
     # Old - gets latest/nightly
