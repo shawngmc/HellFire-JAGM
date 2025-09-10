@@ -31,7 +31,7 @@ jobs:
         TARBALL_URL="https://archive.mozilla.org/pub/firefox/releases/${VERSION}/source/firefox-${VERSION}.source.tar.xz"
         curl -L -o firefox-source.tar.xz ${TARBALL_URL}
         tar -xvf firefox-source.tar.xz --strip-components=1
-         ./mach bootstrap --no-interactive --application-choice "Firefox for Desktop"
+         ./mach bootstrap --application-choice "Firefox for Desktop"
       
     # Old - gets latest/nightly
     # - name: Download Firefox source
