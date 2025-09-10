@@ -25,6 +25,11 @@ jobs:
     - name: Checkout Repo
       uses: actions/checkout@v4
 
+    # TODO: Replace this with getting tagged source
+    # Use the official release train API from https://whattrainisitnow.com/api/firefox/releases/
+    # Get the version for the latest date, then replace in this URL
+    # https://archive.mozilla.org/pub/firefox/releases/142.0.1/source/firefox-142.0.1.source.tar.xz
+    # Also need to figure out what build tooling I would need
     - name: Download Firefox source
       run: |
         curl -LO https://raw.githubusercontent.com/mozilla-firefox/firefox/refs/heads/main/python/mozboot/bin/bootstrap.py
