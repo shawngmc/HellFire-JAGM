@@ -24,25 +24,28 @@ jobs:
 
     - name: Checkout Repo
       uses: actions/checkout@v4
-
-    # TODO: Replace this with getting tagged source
-    # Use the official release train API from https://whattrainisitnow.com/api/firefox/releases/
-    # Get the version for the latest date, then replace in this URL
-    # https://archive.mozilla.org/pub/firefox/releases/142.0.1/source/firefox-142.0.1.source.tar.xz
-    # Also need to figure out what build tooling I would need
-    # Looks like I bootstrap via 
-    # ./mach bootstrap --no-interactive --application-choice "Firefox for Desktop"
-    - name: Download Firefox source
+    
+    - name: Download Firefox latest stable source and bootstrap
       run: |
-        curl -LO https://raw.githubusercontent.com/mozilla-firefox/firefox/refs/heads/main/python/mozboot/bin/bootstrap.py
-        python3 bootstrap.py --no-interactive --application-choice 'Firefox for Desktop'
-        cd firefox
-        git pull
-        ls -latr
+        VERSION=$(curl https://whattrainisitnow.com/api/firefox/releases/ | jq -r 'to_entries | sort_by(.value) | last | .key')
+        TARBALL_URL="https://archive.mozilla.org/pub/firefox/releases/${VERSION}/source/firefox-${VERSION}.source.tar.xz"
+        curl -L -o firefox-source.tar.xz ${TARBALL_URL}
+        tar -xvf firefox-source.tar.xz --strip-components=1
+         ./mach bootstrap --no-interactive --application-choice "Firefox for Desktop"
+      
+    # Old - gets latest/nightly
+    # - name: Download Firefox source
+    #   run: |
+    #     curl -LO https://raw.githubusercontent.com/mozilla-firefox/firefox/refs/heads/main/python/mozboot/bin/bootstrap.py
+    #     python3 bootstrap.py --no-interactive --application-choice 'Firefox for Desktop'
+    #     cd firefox
+    #     git pull
+    #     ls -latr
 
-    # - name: Add mozconfig from repo
+    - name: Add mozconfig from repo
+      run: |
+        cp ${GITHUB_WORKSPACE}/MozConfigs/Linux64/mozconfig ./mozconfig
 
     - name: Build firefox
       run: |
-        cd firefox
         ./mach build
