@@ -31,6 +31,7 @@ jobs:
         TARBALL_URL="https://archive.mozilla.org/pub/firefox/releases/${VERSION}/source/firefox-${VERSION}.source.tar.xz"
         curl -L -o firefox-source.tar.xz ${TARBALL_URL}
         tar -xvf firefox-source.tar.xz --strip-components=1
+        apt install alsa
          ./mach bootstrap --application-choice "Firefox for Desktop"
       
     # Old - gets latest/nightly
