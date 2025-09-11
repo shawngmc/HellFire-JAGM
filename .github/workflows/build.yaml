@@ -55,9 +55,11 @@ jobs:
     - name: Download Firefox latest stable source and bootstrap
       run: |
         mv firefox firefox-nightly
+        mkdir firefox
+        cd firefox
         TARBALL_URL="https://archive.mozilla.org/pub/firefox/releases/${VERSION}/source/firefox-${VERSION}.source.tar.xz"
         curl -L -o firefox-source.tar.xz ${TARBALL_URL}
-        tar -xf firefox-source.tar.xz
+        tar -xf firefox-source.tar.xz --strip-components=1
         ls -latr
         ./mach bootstrap --application-choice "Firefox for Desktop"
       
