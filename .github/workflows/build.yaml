@@ -34,7 +34,14 @@ jobs:
         sudo apt-get install -y \
           libasound2-dev \
           libpulse-dev \
-          libpango1.0-dev
+          libpango1.0-dev \
+          libx11-xcb-dev \
+          libxrandr-dev \
+          libxcomposite-dev \
+          libxdamage-dev \
+          libxcursor-dev \
+          libxfixes-dev \
+          libxi-dev 
          ./mach bootstrap --application-choice "Firefox for Desktop"
       
     # Old - gets latest/nightly
