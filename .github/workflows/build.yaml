@@ -69,3 +69,14 @@ jobs:
       run: |
         cd firefox
         ./mach build
+
+    - name: Tarball
+      run: |
+        tar -cf firefox.tar firefox
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: tarball
+        path: firefox.tar
+        retention-days: 5
