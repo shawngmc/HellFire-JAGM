@@ -63,8 +63,9 @@ jobs:
 
     - name: Add mozconfig from repo
       run: |
-        cp ${GITHUB_WORKSPACE}/MozConfigs/Linux64/mozconfig ./mozconfig
+        cp ${GITHUB_WORKSPACE}/MozConfigs/Linux64/mozconfig ${GITHUB_WORKSPACE}/firefox/mozconfig
 
     - name: Build firefox
       run: |
+        cd firefox
         ./mach build
