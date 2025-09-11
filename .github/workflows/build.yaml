@@ -68,12 +68,14 @@ jobs:
       run: |
         cp ${GITHUB_WORKSPACE}/MozConfigs/Linux64/mozconfig ${GITHUB_WORKSPACE}/firefox/mozconfig
 
-    - name: Apply Betterfox prefs
+    - name: Apply Betterfox & Custom prefs
       run: |
         cd betterfox
         cp user.js addin.js
         sed -i 's/user_pref/pref/g' addin.js
         cat addin.js >> ../firefox/modules/libpref/init/all.js
+        cd ../prefs
+        cat additional.js >> ../firefox/modules/libpref/init/all.js
 
     - name: Build firefox
       run: |
