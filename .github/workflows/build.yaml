@@ -42,7 +42,8 @@ jobs:
           libxcursor-dev \
           libxfixes-dev \
           libxi-dev \
-          nasm
+          nasm \
+          emscripten
          ./mach bootstrap --application-choice "Firefox for Desktop"
       
     # Old - gets latest/nightly
