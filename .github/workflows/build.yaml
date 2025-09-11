@@ -25,6 +25,16 @@ jobs:
     - name: Checkout Repo
       uses: actions/checkout@v4
 
+    - name: Download Betterfox latest release
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        mkdir betterfox
+        cd betterfox
+        set ver $(gh release list -R yokoffing/Betterfox --exclude-pre-releases -L 1 --json tagName | jq -r .[0].tagName)
+        gh release download -R yokoffing/Betterfox $ver --archive=tar.gz -O betterfox.tar.gz
+        tar -xf betterfox.tar.gz --strip-components=1
+
     - name: Get Version
       run: | 
         VERSION=$(curl https://whattrainisitnow.com/api/firefox/releases/ | jq -r 'to_entries | sort_by(.value) | last | .key')
@@ -54,6 +64,13 @@ jobs:
     - name: Add mozconfig from repo
       run: |
         cp ${GITHUB_WORKSPACE}/MozConfigs/Linux64/mozconfig ${GITHUB_WORKSPACE}/firefox/mozconfig
+
+    - name: Apply Betterfox prefs
+      run: |
+        cd betterfox
+        cp user.js addin.js
+        sed -i 's/user_pref/pref/g' addin.js
+        cat addin.js >> ../firefox/modules/libpref/init/all.js
 
     - name: Build firefox
       run: |
