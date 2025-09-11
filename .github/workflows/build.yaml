@@ -30,7 +30,7 @@ jobs:
         VERSION=$(curl https://whattrainisitnow.com/api/firefox/releases/ | jq -r 'to_entries | sort_by(.value) | last | .key')
         TARBALL_URL="https://archive.mozilla.org/pub/firefox/releases/${VERSION}/source/firefox-${VERSION}.source.tar.xz"
         curl -L -o firefox-source.tar.xz ${TARBALL_URL}
-        tar -xvf firefox-source.tar.xz --strip-components=1
+        tar -xf firefox-source.tar.xz --strip-components=1
         sudo apt-get install -y \
           libasound2-dev \
           libpulse-dev \
