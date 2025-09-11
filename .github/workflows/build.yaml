@@ -83,11 +83,11 @@ jobs:
     - name: Get Package Name
       run: | 
         PACKAGE_PATH=./firefox/objdir-opt/dist/$(cat ./firefox/objdir-opt/dist/package_name.txt)
-        echo "PACKAGE_PATH=${PACKAGE_PATH}" >> $GITHUB_ENV
+        mv ${PACKAGE_PATH} ./firefox.tar.gz
         
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: firefox-build
-        path: PACKAGE_PATH
+        path: ./firefox.tar.gz
         retention-days: 5
