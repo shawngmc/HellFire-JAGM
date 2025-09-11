@@ -25,6 +25,12 @@ jobs:
     - name: Checkout Repo
       uses: actions/checkout@v4
 
+    - name: Get Version
+      run: | 
+        VERSION=$(curl https://whattrainisitnow.com/api/firefox/releases/ | jq -r 'to_entries | sort_by(.value) | last | .key')
+        echo "VERSION=${VERSION}" >> $GITHUB_ENV
+      
+
     # TODO: This exists to do all the dependency bootstrapping. It's not ideal, but they don't seem to care?
     # https://bugzilla.mozilla.org/show_bug.cgi?id=1740139
     # https://bugzilla.mozilla.org/show_bug.cgi?id=1759544
@@ -33,7 +39,6 @@ jobs:
         curl -LO https://raw.githubusercontent.com/mozilla-firefox/firefox/refs/heads/main/python/mozboot/bin/bootstrap.py
         python3 bootstrap.py --no-interactive --application-choice 'Firefox for Desktop'
         cd firefox
-        VERSION=$(curl https://whattrainisitnow.com/api/firefox/releases/ | jq -r 'to_entries | sort_by(.value) | last | .key')
         git fetch origin --tags
         git checkout FIREFOX_${VERSION//./_}_RELEASE
     
@@ -75,13 +80,14 @@ jobs:
         cd firefox
         ./mach package
 
-    - name: Tarball
-      run: |
-        tar -cf firefox.tar firefox
-
+    - name: Get Package Name
+      run: | 
+        PACKAGE_PATH=./firefox/objdir-opt/dist/$(cat ./firefox/objdir-opt/dist/package_name.txt)
+        echo "PACKAGE_PATH=${PACKAGE_PATH}" >> $GITHUB_ENV
+        
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: tarball
-        path: firefox.tar
+        name: firefox-build
+        path: PACKAGE_PATH
         retention-days: 5
