@@ -34,7 +34,7 @@ jobs:
         python3 bootstrap.py --no-interactive --application-choice 'Firefox for Desktop'
         cd firefox
         VERSION=$(curl https://whattrainisitnow.com/api/firefox/releases/ | jq -r 'to_entries | sort_by(.value) | last | .key')
-        git fetch origin --all --tags
+        git fetch origin --tags
         git checkout FIREFOX_${VERSION//./_}_RELEASE
         git pull
     
