@@ -44,7 +44,9 @@ jobs:
           libxi-dev \
           nasm \
           emscripten
-         ./mach bootstrap --application-choice "Firefox for Desktop"
+        curl -L -o wasi.deb https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-27/wasi-sdk-27.0-x86_64-linux.deb
+        sudo apt install ./wasi.deb
+        ./mach bootstrap --application-choice "Firefox for Desktop"
       
     # Old - gets latest/nightly
     # - name: Download Firefox source
